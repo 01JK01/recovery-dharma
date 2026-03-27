@@ -90,14 +90,19 @@ const THREE_POISONS=[
 
 const FIVE_HINDRANCES=[
   {title:"Sensory Desire — Kāmacchanda",color:C.amber,overview:"Sensory desire — the mind's reaching for pleasure — is the most obvious hindranc...",
+   recovery:"In addiction, kāmacchanda is the engine. The substance or behavior provided reliable, immediate pleasure, and the mind learned to seek it compulsively. In recovery we don't eliminate the capacity for pleasure — we train the mind to hold pleasure without grasping, to enjoy without requiring, to experience without demanding repetition.",
    antidote:"Contemplation of impermanence: whatever pleasure this brings will pass. Ask: has this kind of seeking ever brought lasting satisfaction? The antidote is not the absence of pleasure — it is the release of clinging to pleasure."},
   {title:"Ill-Will — Vyāpāda",color:C.rose,overview:"Ill-will — anger, resentment, hatred, contempt — is the mind's pushing away. In ...",
+   recovery:"Resentment is one of the most common relapse triggers in recovery. The mind replays harm done to us, rehearses arguments, nurses grievances — and each replay strengthens the neurological groove. Vyāpāda in recovery often hides beneath a thin surface: we call it 'setting boundaries' or 'being honest' when we are actually feeding ill-will. The practice is to recognize the state without acting from it.",
    antidote:"Mettā practice. Begin with yourself, where it is hardest: 'May I be safe. May I be healthy. May I be happy.' You need not feel it to practice it. The intention opens the door that feeling cannot. For resentment: the compassion question — 'What conditions created this person's capacity to harm?' Understanding causation releases us from resentment's hold."},
   {title:"Sloth & Torpor — Thīna-middha",color:C.blue,overview:"Sloth and torpor is the heavy, contracted, withdrawn quality of mind — dullness,...",
+   recovery:"For many people in recovery, thīna-middha is indistinguishable from depression, PAWS, or the flat affect of early sobriety. The danger is using it as a reason not to practice — 'I'm too tired to meditate, too foggy to go to the meeting.' But sloth-torpor is most powerfully disrupted by exactly the actions it resists. The practice is engagement when every signal says withdraw.",
    antidote:"Physical movement — even a short walk — reliably disrupts thīna-middha. So does contact with the sangha. In meditation, brightening the attention by opening the eyes or sitting up can help. Above all: recognize this state is impermanent — not your actual capacity, not the truth about recovery."},
   {title:"Restlessness & Worry — Uddhacca-kukkucca",color:C.rose,overview:"Restlessness and worry is the agitated, anxious quality of mind — in recovery, t...",
+   recovery:"Anxiety and restlessness are enormously common in early recovery. The nervous system, accustomed to chemical regulation, is learning to self-regulate again. Uddhacca can manifest as an inability to sit still, racing thoughts, compulsive planning, or the obsessive rehearsal of past or future scenarios. Recognizing it as a mental state — rather than an accurate read of reality — is the beginning of freedom from it.",
    antidote:"Grounding practices: body, breath, feet on the floor. The parasympathetic nervous system responds to slow exhalation — breathe out longer than you breathe in. For worry and regret: inquiry is the direct antidote. Bringing the specific thought into the four questions dissolves the compulsive mental rehearsal."},
   {title:"Doubt — Vicikicchā",color:C.lavender,overview:"Doubt is the undermining quality of mind — 'this won't work,' 'you're not capabl...",
+   recovery:"Doubt in recovery takes many forms: doubt that the program works, doubt that you are capable of change, doubt that the effort is worth it, doubt that things can genuinely be different. Vicikicchā is especially dangerous because it feels like clear-eyed realism. The antidote is not forcing certainty — it is bringing the doubt into relationship with people who have walked through it.",
    antidote:"Investigate the doubt and bring it to the sangha. Doubt lives in isolation. Community dissolves it. Every person who has gone before you and found their way through is proof that the path is real."},
 ];
 
@@ -2331,12 +2336,9 @@ export default function App(){
         {screenMap[screen]||<HomeScreen onNav={setScreen}onSOS={()=>setSOS(true)}/>}
       </div>
       <nav style={{position:"fixed",bottom:0,left:0,right:0,background:`${C.surface}f0`,borderTop:`1px solid ${C.border}`,backdropFilter:"blur(14px)",zIndex:100,overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
-        <div style={{display:"flex",gap:0,minWidth:"max-content",padding:"3px 4px 8px"}}>
-          {NAV_GROUPS.map((g,gi)=><div key={g.group} style={{display:"flex",alignItems:"flex-start",borderRight:gi<NAV_GROUPS.length-1?`1px solid ${C.border}`:undefined,paddingRight:gi<NAV_GROUPS.length-1?3:0,marginRight:gi<NAV_GROUPS.length-1?3:0}}>
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",paddingTop:6,paddingRight:2,paddingLeft:2,minWidth:28}}>
-              <div style={{fontSize:7,color:g.color,letterSpacing:".08em",textTransform:"uppercase",writingMode:"vertical-rl",transform:"rotate(180deg)",lineHeight:1,opacity:.7,marginBottom:2}}>{g.group}</div>
-            </div>
-            {g.items.map(n=><button key={n.id}onClick={()=>setScreen(n.id)}style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"6px 8px",background:screen===n.id?`${g.color}20`:"none",border:"none",cursor:"pointer",borderRadius:8,transition:"all .2s",minWidth:52,opacity:screen===n.id?1:.5}}><span style={{fontSize:13,color:screen===n.id?g.color:C.cream}}>{n.icon}</span><span style={{fontSize:8,color:screen===n.id?g.color:C.creamMuted,letterSpacing:".04em",textAlign:"center",lineHeight:1.2,whiteSpace:"nowrap"}}>{n.label}</span></button>)}
+        <div style={{display:"flex",gap:0,minWidth:"max-content",padding:"0 2px 6px",alignItems:"flex-end"}}>
+          {NAV_GROUPS.map((g,gi)=><div key={g.group} style={{display:"flex",alignItems:"flex-end",borderRight:gi<NAV_GROUPS.length-1?`1px solid ${C.border}44`:undefined,paddingRight:gi<NAV_GROUPS.length-1?2:0,marginRight:gi<NAV_GROUPS.length-1?2:0}}>
+            {g.items.map(n=>{const active=screen===n.id;return(<button key={n.id}onClick={()=>setScreen(n.id)}style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"6px 7px",background:active?`${g.color}20`:"none",border:"none",cursor:"pointer",borderRadius:8,transition:"all .2s",minWidth:48,position:"relative",paddingTop:active?8:6}}>{active&&<div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:20,height:2,borderRadius:1,background:g.color}}/>}<span style={{fontSize:13,color:active?g.color:C.cream,opacity:active?1:.55}}>{n.icon}</span><span style={{fontSize:8,color:active?g.color:C.creamMuted,letterSpacing:".03em",textAlign:"center",lineHeight:1.2,whiteSpace:"nowrap",opacity:active?1:.65}}>{n.label}</span></button>);})}
           </div>)}
         </div>
       </nav>
