@@ -464,7 +464,7 @@ function HomeScreen({onNav,onSOS,setPage,setSOS}){
   const todayCI=checkins.find?.(c=>c.date===todayStr());
   const daysIn=startDate?daysBetween(startDate,todayStr()):null;
   const NAV=[
-    {page:"myrecovery",label:"My Recovery",sub:"Dashboard · streak · milestones",icon:"◉",color:C.gold},
+    {page:"recovery",label:"My Recovery",sub:"Dashboard · streak · milestones",icon:"◉",color:C.gold},
     {page:"checkin",label:"Daily Check-In",sub:"Mood · craving · gratitude",icon:"◈",color:C.sage},
     {page:"path",label:"The Teachings",sub:"Four Truths · Eightfold Path · Poisons",icon:"☸",color:C.lavender},
     {page:"wisdom",label:"Wisdom Library",sub:"Hindrances · Pāramitās · Glossary",icon:"✧",color:C.blue},
@@ -734,7 +734,7 @@ function ChecklistTab(){
   );
 }
 
-function CheckInScreen(){
+function CheckInScreen({toast=()=>{}}){ 
   const[checkins,setCheckins,ciL]=useStorage("rd:checkins",[]);
   const[gratitudes,setGratitudes]=useStorage("rd:gratitudes",[]);
   const[tab,setTab]=useState("checkin");
@@ -743,7 +743,7 @@ function CheckInScreen(){
   const[sleep,setSleep]=useState(todayCI?.sleep||7);const[note,setNote]=useState(todayCI?.note||"");
   const[saved,setSaved]=useState(!!todayCI);const[grat,setGrat]=useState("");const[gs,setGS]=useState(false);
   const todayGrats=gratitudes.filter?.(g=>g.date===todayStr())||[];
-  const saveCI=async()=>{if(!mood)return;await setCheckins(prev=>[...prev.filter(c=>c.date!==todayStr()),{date:todayStr(),mood,craving,sleep,note,ts:Date.now()}].sort((a,b)=>b.date.localeCompare(a.date)));setSaved(true);};
+  const saveCI=async()=>{if(!mood)return;await setCheckins(prev=>[...prev.filter(c=>c.date!==todayStr()),{date:todayStr(),mood,craving,sleep,note,ts:Date.now()}].sort((a,b)=>b.date.localeCompare(a.date)));setSaved(true);toast("Check-in saved","saved");};
   const addGrat=async()=>{if(!grat.trim())return;await setGratitudes(prev=>[{id:Date.now(),date:todayStr(),text:grat},...prev.slice(0,499)]);setGrat("");setGS(true);setTimeout(()=>setGS(false),2500);};
   if(!ciL)return <div style={{padding:"60px 16px",textAlign:"center",color:C.creamMuted}}>Loading...</div>;
   return(
@@ -1489,7 +1489,7 @@ function JournalScreen({toast=()=>{}}){
 }
 
 // ── WORKBOOK ──────────────────────────────────────────────────────────────────
-function WorkbookScreen(){
+function WorkbookScreen({toast=()=>{}}){ 
   const[progress,setProgress]=useStorage("rd:workbook_progress",{});
   const[notes,setNotes]=useStorage("rd:workbook_notes",{});
   const[week,setWeek]=useState(0);
@@ -1635,7 +1635,7 @@ function PurposeScreen({toast}){
 }
 
 // ── RELATIONSHIP REPAIR ───────────────────────────────────────────────────────
-function RelationshipsScreen(){
+function RelationshipsScreen({toast=()=>{}}){ 
   const[tab,setTab]=useState("guide");
   return(
     <div className="fu"style={{maxWidth:780,margin:"0 auto",padding:"0 16px 60px"}}>
@@ -2302,7 +2302,7 @@ export default function App(){
     wisdom:<WisdomScreen/>,
     commitments:<CommitmentsScreen/>,
     inquiry:<InquiryScreen/>,
-    workbook:<WorkbookScreen/>,
+    workbook:<WorkbookScreen toast={showToast}/>,
     practice:<PracticeScreen/>,
     meetings:<MeetingsScreen/>,
     relapse:<RelapseScreen/>,
